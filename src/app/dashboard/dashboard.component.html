@@ -1,0 +1,17 @@
+<div class="dashboard-container">
+    <mat-vertical-stepper [linear]="false" orientation="horizontal">
+        <mat-step label="users">
+            <app-users></app-users>
+            <div class="step-actions">
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step label="Roles">
+          <app-roles></app-roles>
+          <div class="step-actions">
+            <button mat-button matStepperBack>Back</button>
+          </div>
+        </mat-step>
+    </mat-vertical-stepper>
+</div>

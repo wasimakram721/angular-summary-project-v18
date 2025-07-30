@@ -1,0 +1,8 @@
+  <div class="view-container">
+      <h2>Role Details</h2>
+      <app-dynamic-grid
+        [columns]="columns"
+        [dataSourceInput]="[role()]"
+        (contextActionClick)="onGridAction($event)"
+      ></app-dynamic-grid>
+    </div>

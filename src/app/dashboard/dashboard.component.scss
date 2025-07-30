@@ -1,0 +1,13 @@
+.dashboard-container {
+      display: flex;
+      padding: 20px;
+      max-width: 800px;
+    }
+
+    mat-vertical-stepper {
+      width: 100%;
+    }
+
+    .step-actions {
+      margin-top: 16px;
+    }
