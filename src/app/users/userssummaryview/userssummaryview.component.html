@@ -2,6 +2,7 @@
   <div class="header-container">
     <button (click)="backsummary()">Back</button>
     <span>Users Summary</span>
+    <div *ngIf="name">Wasim</div>
 </div>
     <app-dynamic-grid
     [columns]="columns"
@@ -12,6 +13,7 @@
 <!-- Search input and button -->
 <input type="text" [(ngModel)]="searchText" placeholder="Search by name" />
 <button (click)="onSearch()">Search</button>
+
 
 <!-- Styled table with good borders -->
 <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
@@ -30,5 +32,20 @@
     }
   </tbody>
 </table>
+<div class="upload-container">
+      <input type="file" (change)="onFileSelected($event)" accept=".pdf,image/*" />
+      
+      <div *ngIf="filePreview" class="preview">
+        <ng-container *ngIf="fileType === 'image'; else pdfBlock">
+          <img [src]="filePreview" width="200" />
+        </ng-container>
+        <ng-template #pdfBlock>
+          <embed [src]="filePreview" type="application/pdf" width="300" height="200" />
+        </ng-template>
+      </div>
+
+      <button (click)="uploadFile()" [disabled]="!selectedFile">Upload</button>
+    </div>
+
 <!-- 
 <app-table [colArray]="columnArray"></app-table> -->

@@ -6,6 +6,7 @@ import { USERS_COLUMNS } from '../../model.ts/user-data';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../reusable/table/table.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-userssummaryview',
@@ -23,10 +24,15 @@ import { FormsModule } from '@angular/forms';
 
 export class UserssummaryviewComponent {
   columnArray:string[] = ['Location', 'Code', 'Action'];
+  name:boolean= true;
+    selectedFile!: File | null;
+  filePreview: string | ArrayBuffer | null = null;
+  fileType: 'image' | 'pdf' | null = null;
+
 
   // array :string[] = ['Location', 'Code', 'Action'];
 
-  constructor(private usersservice:UsersServiceService, private router : Router){}
+  constructor(private usersservice:UsersServiceService, private router : Router, private http:HttpClient){}
 
   user = computed(() => this.usersservice.usersSummaryRowInfo());
   columns=USERS_COLUMNS;
@@ -69,4 +75,30 @@ export class UserssummaryviewComponent {
   return idMatch || nameMatch
  })
   }
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+
+    if (!this.selectedFile) return;
+
+    const fileType = this.selectedFile.type;
+    this.fileType = fileType.includes('pdf') ? 'pdf' : 'image';
+
+    const reader = new FileReader();
+    reader.onload = () => this.filePreview = reader.result;
+    reader.readAsDataURL(this.selectedFile);
+  }
+
+  uploadFile() {
+    if (!this.selectedFile) return;
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    this.http.post('http://localhost:8080/api/upload', formData)
+      .subscribe({
+        next: res => alert('File uploaded successfully'),
+        error: err => alert('Upload failed: ' + err.message)
+      });
+  }
+
 }
